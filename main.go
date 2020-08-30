@@ -1,9 +1,13 @@
 package main
 
 import (
-	"github.com/takumi-kawaguchi/database_manager/infrastructure"
+	appcofig "github.com/takumi-kawaguchi/database_manager/appconfig"
 )
 
 func main() {
-	infrastructure.Init()
+	appcofig.Init()
+	// err := appcofig.Init()
+	// if err != nil {
+	// 	fmt.Println(err)
+	// }
 }
