@@ -14,4 +14,10 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 
-# Docker file
+# Docker
+docker-compose.yml
+Dockerfile
+
+# vscode - Remote extension dev setting
+.devcontainer
+initdb.d
