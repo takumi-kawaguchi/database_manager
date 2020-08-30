@@ -1,7 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"github.com/takumi-kawaguchi/database_manager/infrastructure"
+)
 
 func main() {
-	fmt.Println("test")
+	infrastructure.Init()
 }
