@@ -1,6 +1,8 @@
 package infrastructure
 
 import (
+	"errors"
+	"fmt"
 	"io"
 	"text/template"
 
@@ -12,14 +14,35 @@ type Template struct {
 	templates *template.Template
 }
 
-// Render renders a view
-func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return t.templates.ExecuteTemplate(w, name, data)
+// TemplateRepository has template list
+type TemplateRepository struct {
+	templates map[string]*template.Template
 }
 
-// NewTemplate returns template
-func NewTemplate() *Template {
-	return &Template{
-		templates: template.Must(template.ParseGlob("views/*.tmpl")),
+// Render renders a view
+// func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+// 	return t.templates.ExecuteTemplate(w, name, data)
+// }
+
+// Render renders a view
+func (t *TemplateRepository) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+	tmpl, ok := t.templates[name]
+	if !ok {
+		fmt.Println("[TEST]template not found")
+		err := errors.New("Template not found -> " + name)
+		return err
+	}
+	fmt.Println("[TEST]here")
+	return tmpl.ExecuteTemplate(w, "base.html", data)
+
+}
+
+// NewTemplates returns template
+func NewTemplates() *TemplateRepository {
+	templates := make(map[string]*template.Template)
+	// TODO: ここの定義長ったらしくなりそうだから関数化したい
+	templates["databases.tmpl"] = template.Must(template.ParseFiles("views/databases.tmpl", "views/base.tmpl"))
+	return &TemplateRepository{
+		templates: templates,
 	}
 }

@@ -1,10 +1,6 @@
 package appcofig
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-
 	"github.com/labstack/echo"
 	"github.com/takumi-kawaguchi/database_manager/infrastructure"
 	"github.com/takumi-kawaguchi/database_manager/interfaces/controllers"
@@ -13,22 +9,14 @@ import (
 // Init initializes route config
 func Init() {
 	e := echo.New()
-	e.Renderer = infrastructure.NewTemplate()
+	e.Renderer = infrastructure.NewTemplates()
 
 	// router setting
-	err := e.GET("/", func(c echo.Context) error {
-		err2 := controllers.GetDatabases(c)
-		fmt.Printf("[TEST] err2: %+v", err2)
-		return err2
-	})
-	if err != nil {
-		fmt.Println("[TEST] GetDatabases error")
-		log.Printf("%+v", err)
-	}
 
-	e.GET("/test", func(c echo.Context) error {
-		return c.String(http.StatusOK, "hello, world")
-	})
+	// GET / : databases list
+	e.GET("/", func(c echo.Context) error { return controllers.GetDatabases(c) })
+	// GET /database/new : new database form
+	e.GET("/database/new/", func(c echo.Context) error { return controllers.NewDatabase(c) })
 
 	e.Start(":1324")
 }
