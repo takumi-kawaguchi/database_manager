@@ -1,25 +1,25 @@
 {{define "title"}}
-  DatabaseManager | DB作成
+  DatabaseManager | テーブル一覧
 {{end}}
 
 {{define "body"}}
-    {# <h1 class="my-3 ml-3">データベース一覧</h1>
+    <h1 class="my-3 ml-3">{{.database.Name}}データベース - テーブル一覧</h1>
     <div class="col-5 ml-3">
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>データベース名</th>
+            <th>テーブル名</th>
             <th>概要</th>
           <tr>
         </thead>
         <tbody>
-          {{range .databases}}
+          {{range .tables}}
           <tr>
-            <td><a href="/database/{{.ID}}/tables">{{.Name}}</a></td>
+            <td><a href="/database/{{$.database.ID}}/table/{{.ID}}">{{.Name}}</a></td>
             <td>{{.Description}}</td>
           </tr>
           {{end}}
         </tbody>
       </table>
-    </div> #}
+    </div>
 {{end}}

@@ -2,7 +2,6 @@ package infrastructure
 
 import (
 	"errors"
-	"fmt"
 	"io"
 	"text/template"
 
@@ -28,20 +27,21 @@ type TemplateRepository struct {
 func (t *TemplateRepository) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
 	tmpl, ok := t.templates[name]
 	if !ok {
-		fmt.Println("[TEST]template not found")
 		err := errors.New("Template not found -> " + name)
 		return err
 	}
-	fmt.Println("[TEST]here")
 	return tmpl.ExecuteTemplate(w, "base.html", data)
 
 }
 
-// NewTemplates returns template
+// NewTemplates returns templates
 func NewTemplates() *TemplateRepository {
 	templates := make(map[string]*template.Template)
 	// TODO: ここの定義長ったらしくなりそうだから関数化したい
 	templates["databases.tmpl"] = template.Must(template.ParseFiles("views/databases.tmpl", "views/base.tmpl"))
+	templates["tables.tmpl"] = template.Must(template.ParseFiles("views/tables.tmpl", "views/base.tmpl"))
+	templates["table.tmpl"] = template.Must(template.ParseFiles("views/table.tmpl", "views/base.tmpl"))
+	// templates["new_database.tmpl"] = template.Must(template.ParseFiles("views/new_database.tmpl", "views/base.tmpl"))
 	return &TemplateRepository{
 		templates: templates,
 	}

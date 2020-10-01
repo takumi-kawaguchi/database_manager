@@ -1,0 +1,61 @@
+{{define "title"}}
+  DatabaseManager | テーブル詳細
+{{end}}
+
+{{define "body"}}
+    <h1 class="my-3 ml-3">{{.table.Name}} テーブル詳細</h1>
+    <div class="col-5 ml-3 mx-auto">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">カラム名</th>
+            <th scope="col">項目名</th>
+            <th scope="col">型</th>
+            <th scope="col">バイト</th>
+            <th scope="col">NN制約</th>
+            <th scope="col">PK</th>
+            <th scope="col">UK</th>
+            <th scope="col">暗号化</th>
+            <th scope="col">インデックス</th>
+            <th scope="col">備考</th>
+          <tr>
+        </thead>
+        <tbody>
+          {{range .columns}}
+          <tr>
+            <td>{{.PhysicalName}}</td>
+            <td>{{.LogicalName}}</td>
+            <td>{{.DataType}}</td>
+            <td>{{.Byte}}</td>
+            {{if .IsNotnull}}
+              <td>〇</td>
+            {{else}}
+              <td></td>
+            {{end}}
+            {{if .IsPrimaryKey}}
+              <td>〇</td>
+            {{else}}
+              <td></td>
+            {{end}}
+            {{if .IsUniqueIndexKey}}
+              <td>〇</td>
+            {{else}}
+              <td></td>
+            {{end}}
+            {{if .IsEncrypted}}
+              <td>〇</td>
+            {{else}}
+              <td></td>
+            {{end}}
+            {{if ne .Index 0}}
+              <td>{{.Index}}</td>
+            {{else}}
+              <td></td>
+            {{end}}
+            <td>{{.Description}}</td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+    </div>
+{{end}}

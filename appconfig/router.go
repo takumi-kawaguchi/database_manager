@@ -12,11 +12,12 @@ func Init() {
 	e.Renderer = infrastructure.NewTemplates()
 
 	// router setting
-
-	// GET / : databases list
 	e.GET("/", func(c echo.Context) error { return controllers.GetDatabases(c) })
-	// GET /database/new : new database form
 	e.GET("/database/new/", func(c echo.Context) error { return controllers.NewDatabase(c) })
+	e.GET("/database/:database_id/tables/", func(c echo.Context) error { return controllers.GetTables(c) })
+	e.GET("/database/:database_id/table/:table_id/", func(c echo.Context) error { return controllers.GetTable(c) })
+
+	e.HTTPErrorHandler = infrastructure.JSONErrorHandler
 
 	e.Start(":1324")
 }
